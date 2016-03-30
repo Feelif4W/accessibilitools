@@ -46,15 +46,30 @@ public class TweetView extends LinearLayout {
 
         tweetTextView.setText(tweet);
 
+        if (services.isSpokenFeedbackEnabled()) {
+            setClickListenerToShowDialogFor(actions);
+        } else {
+            setIndividualClickListeners(tweet, listener);
+        }
+    }
+
+    private void setClickListenerToShowDialogFor(final Actions actions) {
         setOnClickListener(
                 new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (services.isSpokenFeedbackEnabled()) {
-                            showAlertDialogFor(actions);
-                        } else {
-                            listener.onClick(tweet);
-                        }
+                        showAlertDialogFor(actions);
+                    }
+                }
+        );
+    }
+
+    private void setIndividualClickListeners(final String tweet, final Listener listener) {
+        setOnClickListener(
+                new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onClick(tweet);
                     }
                 }
         );
@@ -81,19 +96,22 @@ public class TweetView extends LinearLayout {
     private Actions createActions(final String tweet, final Listener listener) {
         return new Actions(
                 Arrays.asList(
-                        new Action(R.id.tweet_action_open, R.string.tweet_action_open, new Runnable() {
+                        new Action(
+                                R.id.tweet_action_open, R.string.tweet_action_open, new Runnable() {
                             @Override
                             public void run() {
                                 listener.onClick(tweet);
                             }
                         }),
-                        new Action(R.id.tweet_action_reply, R.string.tweet_action_reply, new Runnable() {
+                        new Action(
+                                R.id.tweet_action_reply, R.string.tweet_action_reply, new Runnable() {
                             @Override
                             public void run() {
                                 listener.onClickReply(tweet);
                             }
                         }),
-                        new Action(R.id.tweet_action_retweet, R.string.tweet_action_retweet, new Runnable() {
+                        new Action(
+                                R.id.tweet_action_retweet, R.string.tweet_action_retweet, new Runnable() {
                             @Override
                             public void run() {
                                 listener.onClickRetweet(tweet);
