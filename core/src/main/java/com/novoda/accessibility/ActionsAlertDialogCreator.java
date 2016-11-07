@@ -2,6 +2,7 @@ package com.novoda.accessibility;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 
@@ -9,7 +10,7 @@ public class ActionsAlertDialogCreator {
 
     private static final int NO_TITLE = 0;
 
-    private final Context context;
+    private final Resources resources;
 
     @StringRes
     private final int title;
@@ -21,7 +22,7 @@ public class ActionsAlertDialogCreator {
     }
 
     public ActionsAlertDialogCreator(Context context, @StringRes int title) {
-        this.context = context;
+        this.resources = context.getResources();
         this.title = title;
         this.dialogBuilder = new AlertDialog.Builder(context);
     }
@@ -51,7 +52,7 @@ public class ActionsAlertDialogCreator {
     private CharSequence[] collateActionLabels(Actions actions) {
         CharSequence[] itemLabels = new CharSequence[actions.getCount()];
         for (int i = 0; i < actions.getCount(); i++) {
-            itemLabels[i] = context.getResources().getString(actions.getAction(i).getLabel());
+            itemLabels[i] = resources.getString(actions.getAction(i).getLabel());
         }
         return itemLabels;
     }
