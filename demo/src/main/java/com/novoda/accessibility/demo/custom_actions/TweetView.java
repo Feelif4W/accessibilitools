@@ -131,8 +131,8 @@ public class TweetView extends LinearLayout {
     }
 
     private void showAlertDialogFor(Actions actions) {
-        new ActionsAlertDialogCreator(getContext(), R.string.tweet_actions_title, actions)
-                .create()
+        new ActionsAlertDialogCreator(getContext(), R.string.tweet_actions_title)
+                .create(actions)
                 .show();
     }
 
